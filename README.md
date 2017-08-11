@@ -43,7 +43,7 @@ If one or more of the arguments *user*, *password*, *log_file* or *log_level* ar
 
 
 ```python
-con = fxcmpy.fxcmpy(user='d101537826', password='1234', log_level='info')
+con = fxcmpy.fxcmpy(user='XXXXXXX', password='XXXX', log_level='info')
 ```
 
     |INFO|2017-08-11 14:16:47,169|Connecting FXCM Server for user d101537826|
