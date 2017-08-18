@@ -24,8 +24,10 @@ class ServerError(Exception):
 
 
 class fxcmpy(object):
-    """ A wrapper class for the FXCM API """
+    """ A wrapper class for the FXCM API. """
+
     # Class attributes
+
     auth_url = 'https://www-beta2.fxcorporate.com/oauth/token'
     trading_url = 'https://www-beta3.fxcorporate.com'
     port = 443
@@ -40,6 +42,28 @@ class fxcmpy(object):
 
     def __init__(self, user='', password='', config_file='',
                  log_file='', log_level=''):
+        """ Constructor
+
+        Arguments:
+        ===========
+
+        user: string (default: ''),
+            username of the users FXCM acount.
+        password: string (default: ''),
+            password of the FXCM account given by username.
+        config_file: string (default: ''),
+            path of an optional configuration file, fxcmpy tries to read all
+            other parameter which are not given from that file. The file must
+            be readable by configparser.
+        log_file: string (default: ''),
+            path of an optional log file. If not given (and not found in the
+            optional configuration file), log messages are printed to stdout.
+        log_level: string (default: ''),
+            the log level. Must be one of 'error', 'warn', 'info' or 'debug'.
+            If not given (and not found in the optional configuration file),
+            'warn' is used.
+        """
+
         self.logger = None
         self.config_file = ''
 
@@ -108,7 +132,7 @@ class fxcmpy(object):
         self.connect()
 
     def connect(self):
-        """ Connects to the FXCM server. """
+        """ Connect to the FXCM server."""
 
         self.logger.info('Connecting FXCM Server for user %s' % self.user)
 
@@ -120,8 +144,7 @@ class fxcmpy(object):
         socket_thread.start()
 
     def is_connected(self):
-        """ Returns True if the socket connection is established
-        and False else """
+        """ Return True if socket connection is established and False else."""
 
         if self.socket is not None and self.socket.connected:
             return True
@@ -129,7 +152,7 @@ class fxcmpy(object):
             return False
 
     def get_instruments(self):
-        """ Returns the tradeable instruments of FXCM """
+        """ Return the tradeable instruments of FXCM as a list."""
 
         self.logger.debug('Fetching available instruments')
 
@@ -143,7 +166,20 @@ class fxcmpy(object):
         return instruments
 
     def get_model(self, models=list()):
-        """ Returns a snapshot of the the specified model(s) """
+        """ Return a snapshot of the the specified model(s)
+
+        Arguments:
+        ===========
+        models: list,
+            list of the required models, entries must be out of
+            ['Offer', 'Account', 'Order', 'OpenPosition', 'ClosedPosition',
+             'Summary', 'Properties', 'LeverageProfile'].
+
+        Returns:
+        ========
+        The current data of the specified model(s) in a json like manner.
+
+        """
 
         if len(models) == 0:
             raise ValueError('Please specify one or more models')
@@ -157,6 +193,18 @@ class fxcmpy(object):
         return data
 
     def get_open_positions(self, kind='dataframe'):
+        """ Return a snapshot of the 'Open Position' model.
+
+        Arguments:
+        ==========
+        kind: one of 'dataframe' (default) or 'list',
+            how to return the data, either as list or as a Pandas Dataframe.
+
+        Return:
+        =======
+        The current data of the 'Open Position' model.
+
+        """
         data = self.get_model(('OpenPosition',))
         open_pos = data['open_positions']
         if kind == 'list':
@@ -165,6 +213,18 @@ class fxcmpy(object):
             return pd.DataFrame(open_pos)
 
     def get_closed_positions(self, kind='dataframe'):
+        """ Return a snapshot of the 'Closed Position' model.
+
+        Arguments:
+        ==========
+        kind: one of 'dataframe' (default) or 'list',
+            how to return the data, either as list or as a Pandas Dataframe.
+
+        Return:
+        =======
+        The current data of the 'Closed Position' model.
+
+        """
         data = self.get_model(('ClosedPosition',))
         closed_pos = data['closed_positions']
         if kind == 'list':
@@ -173,6 +233,18 @@ class fxcmpy(object):
             return pd.DataFrame(closed_pos)
 
     def get_offers(self, kind='dataframe'):
+        """ Return a snapshot of the 'Offer' model.
+
+        Arguments:
+        ==========
+        kind: one of 'dataframe' (default) or 'list',
+            how to return the data, either as list or as a Pandas Dataframe.
+
+        Return:
+        =======
+        The current data of the 'Offer' model.
+
+        """
         data = self.get_model(('Offer',))
         offers = data['offers']
         if kind == 'list':
@@ -181,6 +253,18 @@ class fxcmpy(object):
             return pd.DataFrame(offers)
 
     def get_orders(self, kind='dataframe'):
+        """ Return a snapshot of the 'Order' model.
+
+        Arguments:
+        ==========
+        kind: one of 'dataframe' (default) or 'list',
+            how to return the data, either as list or as a Pandas Dataframe.
+
+        Return:
+        =======
+        The current data of the 'Order' model.
+
+        """
         data = self.get_model(('Order',))
         orders = data['orders']
         if kind == 'list':
@@ -189,18 +273,59 @@ class fxcmpy(object):
             return pd.DataFrame(orders)
 
     def get_prices(self, symbol):
+        """ Return the prices of a given subscriped instrument.
+
+        Arguments:
+        ==========
+
+        symbol: string,
+            the symbol of the instrument as given by get_instruments().
+
+        """
+
         if symbol in self.prices:
             return self.prices[symbol]
         else:
             return pd.DataFrame(columns=['Bid', 'High', 'Low', 'Close'])
 
     def get_subscribed_symbols(self):
+        """ Return a list of symbols for the subscriped instruments."""
+
         return list(self.prices.keys())
 
     def is_subscribed(self, symbol):
+        """ Returns True if the instrument is subscripted and False else.
+
+        Arguments:
+        ==========
+
+        symbol:  string,
+            the symbol of the instrument in question as given by
+            get_instruments().
+
+        """
+
         return symbol in self.prices
 
     def subscribe_market_data(self, symbol='', add_callbacks=()):
+        """ Stream the prices of an instrument.
+
+        Arguments:
+        ==========
+
+        symbol:  string,
+            the symbol of the instrument in question as given by
+            get_instruments().
+
+        add_callbacks: list of callables,
+            all methods in that list will be called for every incoming dataset
+            of the instrument. Such a method has to accept two positional
+            arguments, data and dataframe, say. The first should be a json like
+            object with the new price data received by the stream and the
+            second should be a Pandas DataFrame with the collected price data
+            as given by get_prices().
+
+        """
 
         if symbol == '':
             raise ValueError('No symbol given')
@@ -210,8 +335,7 @@ class fxcmpy(object):
         for func in add_callbacks:
             if not callable(func):
                 self.logger.error('Callback method is not callable')
-                raise ValueError('The content of add_callbacks must \
-                                  be callable')
+                raise ValueError('Content of add_callbacks is not callable')
             else:
                 if symbol not in self.add_callbacks:
                     self.add_callbacks[symbol] = dict()
@@ -225,6 +349,25 @@ class fxcmpy(object):
         self.socket.on(symbol, self.__on_price_update__)
 
     def subscribe_data_model(self, model='', add_callbacks=()):
+        # To do, Add callbacks
+        """ Stream data of a model .
+
+        Arguments:
+        ==========
+
+        model:  string,
+            the model, must be one of ['Offer', 'Account', 'Order',
+            'OpenPosition', 'ClosedPosition', 'Summary', 'Properties',
+            'LeverageProfile'].
+
+        add_callbacks: list of callables,
+            all methods in that list will be called for every incoming dataset
+            of the model. Such a method has to accept two positional
+            arguments, data and dataframe, say. The first should be a json like
+            object with the new data received by the stream and the second
+            should be a Pandas DataFrame with the collected data.
+
+        """
 
         if model == '':
             raise ValueError('No model given')
@@ -286,7 +429,7 @@ class fxcmpy(object):
                   'order_type': order_type,
                   'time_in_force': time_in_force
                  }
-        
+
         data = self.__handle_request__(method='trading/close_for_all_symbols',
                                        params=params)
 
@@ -411,15 +554,15 @@ class fxcmpy(object):
                                        params=params)
 
     def remove_from_oco(self, order_ids):
-         params = {
-                   'oderIds': order_ids
-                  }
-         data = self.__handle_request__(method='trading/remove_from_oco',
-                                        params=params)
+        params = {
+                  'oderIds': order_ids
+                 }
+        data = self.__handle_request__(method='trading/remove_from_oco',
+                                       params=params)
 
     def edit_oco(self, oco_bulk_id, add_order_ids, remove_order_ids):
         params = {
-                  'ocoBulkId': oco_bulk_id
+                  'ocoBulkId': oco_bulk_id,
                   'addOrderIds': add_order_ids,
                   'removeOrderIds': remove_order_ids
                  }
@@ -628,6 +771,7 @@ class fxcmpy(object):
     # To check
     def __on_price_update__(self, msg):
         data = json.loads(msg)
+        data = data['pairs']
         symbol = data['Symbol']
         date = pd.to_datetime(int(data['Updated']), unit='s')
         temp_data = pd.DataFrame([data['Rates']],
