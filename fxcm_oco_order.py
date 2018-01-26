@@ -17,13 +17,14 @@
 import datetime as dt
 from fxcm_order import fxcm_order
 
+
 class fxcm_oco_order(object):
     """ A class to realize oco orders of the FXCM API.
 
     Caution:
-     
+
     Do not initialize fxcm oco order object manually, these orders will not
-    registered by the fxcm server, use the create_oco_order() method of the 
+    registered by the fxcm server, use the create_oco_order() method of the
     fxcm class instead.
     """
 
@@ -130,7 +131,7 @@ class fxcm_oco_order(object):
 
         for order in remove_orders:
             if not isinstance(order, fxcm_order):
-                self.logger.error('Invalid order in remove_orders: %s.' % order)
+                self.logger.error('Invalid order in remove_orders: %s' % order)
                 raise ValueError('order must be of type fxcm_order.')
             if order.get_ocoBulkId() != self.bulk_id:
                 self.logger.warn('order is not member of oco order.')

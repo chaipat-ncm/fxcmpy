@@ -15,14 +15,16 @@
 
 
 import datetime as dt
+import time
+
 
 class fxcm_order(object):
     """ A class to realize entry orders of the FXCM API.
 
     Caution:
-     
+
     Do not initialize fxcm order object manually, these orders will not
-    registered by the fxcm server, use the create_entry_order() method of the 
+    registered by the fxcm server, use the create_entry_order() method of the
     fxcm class instead.
     """
 
@@ -181,7 +183,7 @@ class fxcm_order(object):
             self.logger.warn('No trade assoziated to order %s.'
                              % self.__orderId__)
             return None
-        
+
     def set_amount(self, amount):
         """ Set a value for the attribute amount."""
         try:
@@ -213,7 +215,7 @@ class fxcm_order(object):
         else:
             rate = self.__sell__
         self.__con__.change_order(self.__orderId__, self.__amountK__, rate,
-                                order_range=order_range)
+                                  order_range=order_range)
 
     def set_trailing_step(self, trailing_step):
         """ Set a value for the attribute trailingStep."""
@@ -226,7 +228,7 @@ class fxcm_order(object):
         else:
             rate = self.__sell__
         self.__con__.change_order(self.__orderId__, self.__amountK__, rate,
-                                trailing_step=trailing_step)
+                                  trailing_step=trailing_step)
 
     def set_stop_rate(self, stop_rate, is_in_pips=True):
         """ Set a new value for the stop rate.
@@ -251,7 +253,7 @@ class fxcm_order(object):
             raise ValueError('is_in_pips must be a boolean.')
 
         self.__con__.change_order_stop_limit(self.__orderId__, stop=stop_rate,
-                                             limit=None, 
+                                             limit=None,
                                              is_stop_in_pips=is_in_pips,
                                              is_limit_in_pips=None)
 
@@ -277,7 +279,7 @@ class fxcm_order(object):
         except:
             raise ValueError('is_in_pips must be a boolean.')
 
-        self.__con__.change_order_stop_limit(self.__orderId__, 
+        self.__con__.change_order_stop_limit(self.__orderId__,
                                              stop=None,
                                              limit=limit_rate,
                                              is_stop_in_pips=None,

@@ -18,9 +18,9 @@ import datetime as dt
 
 
 class fxcm_open_position(object):
-    """ A convenience class for a better handling of open positions. """   
+    """ A convenience class for a better handling of open positions. """
     position_parameter = ['tradeId', 'accountName', 'accountId', 'roll', 'com',
-                          'open', 'valueDate', 'grossPL', 'close','visiblePL',
+                          'open', 'valueDate', 'grossPL', 'close', 'visiblePL',
                           'isDisabled', 'currency', 'isBuy', 'amountK',
                           'currencyPoint', 'time', 'usedMargin', 'stop',
                           'stopMove', 'limit']
@@ -42,7 +42,7 @@ class fxcm_open_position(object):
             ret_str += '{:18}{}\n'.format(para+':',
                                           getattr(self, '__%s__' % para))
         return ret_str
-    
+
     def __set_attribute__(self, attribute, value):
         if attribute in ['accountId', 'tradeId']:
             try:
@@ -167,11 +167,11 @@ class fxcm_open_position(object):
 
         Arguments:
 
-        amount: integer (default: 0), 
+        amount: integer (default: 0),
             the trades amount in lots. If 0, the whole position is closed.
 
         order_type: string (default : 'AtMarket'),
-            the order type, must be 'AtMarket' or 'MarketRange'. 
+            the order type, must be 'AtMarket' or 'MarketRange'.
 
         time_in_force: string (default: 'FOK'),
             the time in force of the order execution, must be one of
@@ -184,7 +184,7 @@ class fxcm_open_position(object):
             the markets range.
 
         """
-         
+
         try:
             amount = float(amount)
         except:
@@ -210,6 +210,5 @@ class fxcm_open_position(object):
             msg = "time_in_force must be in 'IOC', 'GTC', 'FOK', 'DAY', 'GTD'."
             raise ValueError(msg)
 
-
-        self.__con__.close_trade(self.__tradeId__, amount, order_type, 
+        self.__con__.close_trade(self.__tradeId__, amount, order_type,
                                  time_in_force, rate, at_market)

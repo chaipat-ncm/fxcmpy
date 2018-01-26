@@ -16,14 +16,14 @@
 
 import datetime as dt
 
+
 class fxcm_closed_position(object):
-    """ A convenience class for a better handling of closed positions. """   
+    """ A convenience class for a better handling of closed positions. """
     position_parameter = ['tradeId', 'accountName', 'roll', 'com',
-                          'open', 'valueDate', 'grossPL', 'close','visiblePL',
+                          'open', 'valueDate', 'grossPL', 'close', 'visiblePL',
                           'currency', 'isBuy', 'amountK',
-                          'currencyPoint','closeTime', 'openTime']
-                        
-    
+                          'currencyPoint', 'closeTime', 'openTime']
+
     def __init__(self, connection, kwargs):
         self.__con__ = connection
         self.parameter = set()
@@ -41,7 +41,7 @@ class fxcm_closed_position(object):
             ret_str += '{:18}{}\n'.format(para+':',
                                           getattr(self, '__%s__' % para))
         return ret_str
-    
+
     def __set_attribute__(self, attribute, value):
         if attribute in ['accountId', 'tradeId']:
             try:
@@ -59,7 +59,7 @@ class fxcm_closed_position(object):
             return 0
         self.parameter.add(attribute)
         setattr(self, '__'+attribute+'__', value)
-        
+
     def get_tradeId(self):
         """Return the value of the attribute tradeId."""
 
@@ -129,10 +129,8 @@ class fxcm_closed_position(object):
         """Return the value of the attribute closeTime."""
 
         return self.__closeTime__
-    
+
     def get_open_time(self):
         """Return the value of the attribute openTime."""
 
         return self.__openTime__
-
-

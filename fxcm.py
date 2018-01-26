@@ -68,7 +68,7 @@ class fxcm(object):
         """ Constructor.
 
         Arguments:
-        
+
         access_token: string (default: ''),
             an access token for your FXCM account. To create an access token
             visit https://tradingstation.fxcm.com/
@@ -179,7 +179,6 @@ class fxcm(object):
         self.subscribe_data_model('OpenPosition')
         self.subscribe_data_model('ClosedPosition')
 
-
     def connect(self):
         """ Connect to the FXCM server."""
         self.connection_status = 'pending'
@@ -226,14 +225,14 @@ class fxcm(object):
         """ Return a snapshot of the the specified model(s).
 
         Arguments:
-        
+
         models: list,
             list of the required models, entries must be out of
             ['Offer', 'Account', 'Order', 'OpenPosition', 'ClosedPosition',
              'Summary', 'Properties', 'LeverageProfile'].
 
         Returns:
-         
+
         The current data of the specified model(s) in a json like manner.
 
         """
@@ -268,7 +267,7 @@ class fxcm(object):
             how to return the data, either as list or as a pandas DataFrame.
 
         Returns:
-         
+
         The current data of the 'Open Position' model.
 
         """
@@ -288,7 +287,7 @@ class fxcm(object):
             how to return the data, either as list or as a pandas DataFrame.
 
         Returns:
-         
+
         The current data of the 'Closed Position' model.
 
         """
@@ -308,7 +307,7 @@ class fxcm(object):
             how to return the data, either as list or as a pandas DataFrame.
 
         Returns:
-         
+
         The current data of the 'Offer' model.
 
         """
@@ -328,7 +327,7 @@ class fxcm(object):
             how to return the data, either as list or as a pandas DataFrame.
 
         Returns:
-         
+
         The current data of the 'Order' model.
 
         """
@@ -348,7 +347,7 @@ class fxcm(object):
             how to return the data, either as list or as a pandas DataFrame.
 
         Returns:
-         
+
         The current data of the 'Summary' model.
 
         """
@@ -368,7 +367,7 @@ class fxcm(object):
             how to return the data, either as list or as a pandas DataFrame.
 
         Returns:
-         
+
         The summary of the current data of the 'Open Position' model.
 
         """
@@ -388,7 +387,7 @@ class fxcm(object):
             how to return the data, either as list or as a pandas DataFrame.
 
         Returns:
-         
+
         The summary of the current data of the 'Closed Position' model.
 
         """
@@ -408,7 +407,7 @@ class fxcm(object):
             how to return the data, either as list or as a pandas DataFrame.
 
         Returns:
-         
+
         The current data of the 'Account' model.
 
         """
@@ -428,7 +427,7 @@ class fxcm(object):
             how to return the data, either as list or as a pandas DataFrame.
 
         Returns:
-         
+
         The summary of the current data of the 'Account' model.
 
         """
@@ -478,7 +477,7 @@ class fxcm(object):
             the id of the position.
 
         Returns:
-         
+
         The fxcm_open_position object.
         """
         try:
@@ -490,10 +489,9 @@ class fxcm(object):
         if position_id in self.open_pos:
             return self.open_pos[position_id]
         else:
-            self.logger.warn('No open position with given id %s.' %position_id)
-            raise ValueError('No open position with given id %s.' %position_id)
+            self.logger.warn('No open position with id %s.' % position_id)
+            raise ValueError('No open position with id %s.' % position_id)
 
-    
     def get_closed_position(self, position_id):
         """ Return the closed position with given id.
 
@@ -503,7 +501,7 @@ class fxcm(object):
             the id of the position.
 
         Returns:
-         
+
         The fxcm_open_position object.
         """
         try:
@@ -515,11 +513,10 @@ class fxcm(object):
         if position_id in self.closed_pos:
             return self.closed_pos[position_id]
         else:
-            self.logger.warn('No closed position with given id %s.' 
-                              %position_id)
-            raise ValueError('No closed position with given id %s.' 
-                              %position_id)
-
+            self.logger.warn('No closed position with given id %s.'
+                             % position_id)
+            raise ValueError('No closed position with given id %s.'
+                             % position_id)
 
     def get_order(self, order_id):
         """ Returns the order object for a given order id.
@@ -530,7 +527,7 @@ class fxcm(object):
             the id of the order.
 
         Returns:
-         
+
         The fxcm_order object.
         """
 
@@ -555,7 +552,7 @@ class fxcm(object):
             the id of the oco order.
 
         Returns:
-         
+
         The fxcm_oco_order_object.
         """
 
@@ -648,7 +645,7 @@ class fxcm(object):
                 self.add_callbacks[symbol][func.__name__] = func
 
         params = {'pairs': symbol}
-        data = self.__handle_request__(method='subscribe', params=params,
+        self.__handle_request__(method='subscribe', params=params,
                                        protocol='post')
         self.socket.on(symbol, self.__on_price_update__)
 
@@ -693,7 +690,7 @@ class fxcm(object):
                 self.add_callbacks[model][func.__name__] = func
 
         params = {'models': model}
-        data = self.__handle_request__(method='trading/subscribe',
+        self.__handle_request__(method='trading/subscribe',
                                        params=params, protocol='post')
         if model == 'Order':
             self.socket.on('Order', self.__on_order_update__)
@@ -714,7 +711,7 @@ class fxcm(object):
         self.logger.info('Try to unsubscribe for %s.' % symbol)
 
         params = {'pairs': symbol}
-        data = self.__handle_request__(method='unsubscribe', params=params,
+        self.__handle_request__(method='unsubscribe', params=params,
                                        protocol='post')
 
         if symbol in self.prices:
@@ -740,10 +737,10 @@ class fxcm(object):
         self.logger.info('Try to unsubscribe for %s.' % model)
         if model not in ['Order', 'OpenPosition', 'ClosedPosition']:
             params = {'models': model}
-            data = self.__handle_request__(method='trading/unsubscribe',
+            self.__handle_request__(method='trading/unsubscribe',
                                            params=params, protocol='post')
         else:
-            msg = 'Model %s is used by intern routines, cancel unsubscibtion, ' 
+            msg = 'Model %s is used by intern routines, cancel unsubscibtion, '
             msg += 'only remove custom callbacks.'
             self.logger.warn(msg % model)
 
@@ -800,7 +797,7 @@ class fxcm(object):
                   'time_in_force': time_in_force
                  }
 
-        data = self.__handle_request__(method='trading/close_all_for_symbol',
+        self.__handle_request__(method='trading/close_all_for_symbol',
                                        params=params, protocol='post')
 
     def close_all(self, order_type='AtMarket', time_in_force='GTC',
@@ -850,7 +847,7 @@ class fxcm(object):
                   'time_in_force': time_in_force
                  }
 
-        data = self.__handle_request__(method='trading/close_all_for_symbol',
+        self.__handle_request__(method='trading/close_all_for_symbol',
                                        params=params, protocol='post')
 
     def open_trade(self, symbol, is_buy,
@@ -1066,10 +1063,10 @@ class fxcm(object):
                  }
 
         meth = 'trading/change_trade_stop_limit'
-        data = self.__handle_request__(method=meth, params=params,
-                                       protocol='post')
+        self.__handle_request__(method=meth, params=params,
+                                protocol='post')
 
-    def close_trade(self, trade_id, amount, order_type='AtMarket', 
+    def close_trade(self, trade_id, amount, order_type='AtMarket',
                     time_in_force='IOC', rate=0, at_market=0):
         """ Close a given trade.
 
@@ -1084,7 +1081,7 @@ class fxcm(object):
         order_type: string (default 'AtMarket'),
             the order type, must be 'AtMarket' or 'MarketRange'.
 
-        time_in_force: string (default 'IOC'), 
+        time_in_force: string (default 'IOC'),
             the time in force of the order execution, must be one of
             'IOC', 'GTC', 'FOK', 'DAY' or 'GTD'.
 
@@ -1132,7 +1129,7 @@ class fxcm(object):
                   'time_in_force': time_in_force
                  }
 
-        data = self.__handle_request__(method='trading/close_trade',
+        self.__handle_request__(method='trading/close_trade',
                                        params=params, protocol='post')
 
     def change_order(self, order_id, amount, rate, order_range=0,
@@ -1195,7 +1192,7 @@ class fxcm(object):
         if trailing_step is not None:
             params['trailing_step'] = trailing_step
 
-        data = self.__handle_request__(method='trading/change_order',
+        self.__handle_request__(method='trading/change_order',
                                        params=params, protocol='post')
 
     def delete_order(self, order_id):
@@ -1218,13 +1215,13 @@ class fxcm(object):
             return
 
         if order_id not in self.orders:
-            raise ValueError('No order with order id %s' %order_id)
+            raise ValueError('No order with order id %s' % order_id)
 
         params = {
                   'order_id': order_id
                  }
 
-        data = self.__handle_request__(method='trading/delete_order',
+        self.__handle_request__(method='trading/delete_order',
                                        params=params, protocol='post')
 
     def create_market_buy_order(self, symbol, amount, account_id=None):
@@ -1316,7 +1313,7 @@ class fxcm(object):
         Arguments:
 
         account_id: integer (Default None),
-            the id of the trading account. If None, the default account is used.
+            the trading account's id. If None, the default account is used.
 
         symbol: string,
             the symbol of the instrument to trade as given by
@@ -1351,7 +1348,7 @@ class fxcm(object):
             the trailing step for the stop rate.
 
         Returns:
-         
+
         The id of the new order.
         """
         if account_id is None:
@@ -1451,9 +1448,9 @@ class fxcm(object):
 
         return order
 
-    def change_order_stop_limit(self, order_id, stop=None, limit=None, 
+    def change_order_stop_limit(self, order_id, stop=None, limit=None,
                                 is_stop_in_pips=True, is_limit_in_pips=True):
-        """ Change an order's stop and / or limit rate. To let an attribute 
+        """ Change an order's stop and / or limit rate. To let an attribute
         unchanged set the values parameter to None.
 
         Arguments:
@@ -1482,7 +1479,6 @@ class fxcm(object):
         params = {
                   'order_id': order_id
                  }
-
 
         if stop is not None:
             if is_stop_in_pips is True:
@@ -1517,8 +1513,8 @@ class fxcm(object):
             params['limit'] = limit
 
         meth = 'trading/change_order_stop_limit'
-        data = self.__handle_request__(method=meth, params=params,
-                                       protocol='post')
+        self.__handle_request__(method=meth, params=params,
+                                protocol='post')
 
     def create_oco_order(self, symbol, is_buy, is_buy2, amount, is_in_pips,
                          time_in_force, at_market, order_type, expiration,
@@ -1595,7 +1591,7 @@ class fxcm(object):
             the trailing step for the second order's stop rate.
 
         Returns:
-         
+
         The id of the new order.
         """
         if account_id is None:
@@ -1773,7 +1769,7 @@ class fxcm(object):
                   'orderIds': order_ids,
                   'ocoBulkId': oco_bulk_id
                  }
-        data = self.__handle_request__(method='trading/add_to_oco',
+        self.__handle_request__(method='trading/add_to_oco',
                                        params=params, protocol='post')
 
     def remove_from_oco(self, order_ids):
@@ -1793,7 +1789,7 @@ class fxcm(object):
         params = {
                   'orderIds': order_ids
                  }
-        data = self.__handle_request__(method='trading/remove_from_oco',
+        self.__handle_request__(method='trading/remove_from_oco',
                                        params=params, protocol='post')
 
     def edit_oco(self, oco_bulk_id, add_order_ids=list(),
@@ -1827,7 +1823,7 @@ class fxcm(object):
                   'addOrderIds': add_order_ids,
                   'removeOrderIds': remove_order_ids
                  }
-        data = self.__handle_request__(method='trading/edit_oco',
+        self.__handle_request__(method='trading/edit_oco',
                                        params=params, protocol='post')
 
     def get_instruments_for_candles(self):
@@ -1880,7 +1876,7 @@ class fxcm(object):
             The column 'date' is always included.
 
         Returns:
-         
+
         A pandas DataFrame containing the requested data.
 
         """
@@ -1898,7 +1894,7 @@ class fxcm(object):
                               % period)
             raise ValueError('period must be one of %s.' % self.PERIODS)
         if type(number) != int or number < 1 or number > 10000:
-            self.logger.error('Error in get_candles: Illegal param. number: %s.'
+            self.logger.error('Error in get_candles: Illegal param. number: %s'
                               % number)
             raise ValueError('number must be a integer betwenn 0 and 10000.')
 
@@ -1986,7 +1982,7 @@ class fxcm(object):
                 self.orders[int(order['orderId'])] = fxcm_order(self, order)
 
     def __collect_oco_orders__(self):
-        """ Collects available oco orders and stores them in self.oco_orders."""
+        """ Collect available oco orders and stores them in self.oco_orders."""
 
         for order in self.orders.values():
             if order.__ocoBulkId__ != 0:
@@ -1998,7 +1994,7 @@ class fxcm(object):
                     self.oco_orders[order.__ocoBulkId__] = oco
 
     def __collect_offers__(self):
-        """ Collect available offers and stores them in self.offers, a dict 
+        """ Collect available offers and stores them in self.offers, a dict
         with key symbol and value offer_id."""
         self.offers = dict()
         offers = self.get_offers('list')
@@ -2017,7 +2013,6 @@ class fxcm(object):
             if 'tradeId' in po and po['tradeId'] != '':
                 self.closed_pos[int(po['tradeId'])] = fxcm_closed_position(self,
                                                                            po)
-
 
     def __connect__(self):
         try:
@@ -2053,7 +2048,7 @@ class fxcm(object):
             self.socket.wait()
 
     def __reconnect__(self, count):
-        self.logger.warn('Not connected, try to reconnect. (%s)' %count)
+        self.logger.warn('Not connected, try to reconnect. (%s)' % count)
         self.connect()
         time.sleep(5)
         self.subscribe_data_model('Order')
@@ -2061,15 +2056,15 @@ class fxcm(object):
         self.subscribe_data_model('ClosedPosition')
         for symbol in self.prices:
             params = {'pairs': symbol}
-            data = self.__handle_request__(method='subscribe', params=params,
-                                           protocol='post')
+            self.__handle_request__(method='subscribe', params=params,
+                                    protocol='post')
             self.socket.on(symbol, self.__on_price_update__)
 
     def __handle_request__(self, method='', params={}, protocol='get'):
         """ Sends server requests. """
 
         if method == '':
-            self.logger.error('Error in __handle__requests__: No method given.')
+            self.logger.error('Error in __handle__requests__: No method given')
             raise ValueError('No method given.')
         if type(params) is not dict:
             self.logger.debug('Error in __handle__requests__:')
@@ -2078,13 +2073,13 @@ class fxcm(object):
 
         if not self.is_connected():
             count = 1
-            while not self.is_connected() and count <11:
+            while not self.is_connected() and count < 11:
                 self.__reconnect__(count)
-                count += 1            
+                count += 1
 
         if method == 'trading/close_all_for_symbol':
             if ('forSymbol' in params and params['forSymbol'] == 'false'
-                and len(self.open_pos) == 0):
+                 and len(self.open_pos) == 0):
                 self.logger.warn('No open positions to close')
                 return False
             elif ('forSymbol' in params and params['forSymbol'] == 'true'):
@@ -2097,7 +2092,7 @@ class fxcm(object):
                     return False
 
         self.logger.info('Sending request to %s/%s, parameter: %s.'
-                          % (self.trading_url, method, params))
+                         % (self.trading_url, method, params))
         if protocol == 'post':
             req = requests.post('%s:443/%s' % (self.trading_url, method),
                                 headers=self.request_headers, data=params)
@@ -2119,7 +2114,7 @@ class fxcm(object):
             self.logger.error('FXCM reject req %s with status %s and msg %s.'
                               % (method, req.status_code, req.text))
 
-            raise ServerError('Request returns status code %s and message "%s".'
+            raise ServerError('Request returns status code %s and message "%s"'
                               % (req.status_code,
                                  unquote(req.text)))
 
@@ -2171,7 +2166,6 @@ class fxcm(object):
                     self.logger.error(sys.exc_info()[1])
                     raise
 
-
     def __on_model_update__(self, msg):
         # Answers not always json objects, so we have to log the raw answer
         # data = json.loads(msg)
@@ -2201,8 +2195,8 @@ class fxcm(object):
         try:
             data = json.loads(msg)
         except:
-            logger.warn('Got a non json answer in order stream, ignoring.')
-            logger.warn(msg)
+            self.logger.warn('Got a non json answer in order stream, ignoring')
+            self.logger.warn(msg)
             return -1
         if 'action' in data and data['action'] == 'I':
             self.logger.info('Got a insert event for orders: %s.' % data)
@@ -2235,7 +2229,7 @@ class fxcm(object):
                 order = self.orders[int(data['orderId'])]
                 for field in data:
                     if (field == 'ocoBulkId' and
-                        order.get_ocoBulkId() != data['ocoBulkId']):
+                         order.get_ocoBulkId() != data['ocoBulkId']):
                         if data['ocoBulkId'] == 0:
                             bulkId = order.get_ocoBulkId()
                             self.oco_orders[bulkId].__remove__(order)
@@ -2260,8 +2254,6 @@ class fxcm(object):
                     self.logger(sys.exc_info()[1])
                     self.logger(sys.exc_info()[2])
 
-
-
     def __on_open_pos_update__(self, msg):
         """ Gets called when the open_position stream sends new data.
 
@@ -2274,14 +2266,15 @@ class fxcm(object):
         try:
             data = json.loads(msg)
         except:
-            logger.warn('Got a non json answer in open pos stream, ignoring.')
-            logger.warn(msg)
+            msg = 'Got non json answer in open pos stream, ignoring.'
+            self.logger.warn(msg)
+            self.logger.warn(msg)
             return -1
 
-        if 'tradeId' in data and data['tradeId'] != '': 
+        if 'tradeId' in data and data['tradeId'] != '':
             trade_id = int(data['tradeId'])
             if 'action' in data and data['action'] == 'I':
-                self.logger.warn('Got a insert event for open positions: %s.' 
+                self.logger.warn('Got a insert event for open positions: %s.'
                                  % data)
                 self.open_pos[trade_id] = fxcm_open_position(self, data)
             elif 'action' in data and data['action'] == 'D':
@@ -2311,7 +2304,6 @@ class fxcm(object):
                     self.logger(sys.exc_info()[1])
                     self.logger(sys.exc_info()[2])
 
-
     def __on_closed_pos_update__(self, msg):
         """ Gets called when the closed_position stream sends new data.
 
@@ -2324,24 +2316,25 @@ class fxcm(object):
         try:
             data = json.loads(msg)
         except:
-            logger.warn('Got a non json answer in closed pos stream, ignoring.')
-            logger.warn(msg)
+            msg = 'Got non json answer in close pos stream, ignoring.'
+            self.logger.warn(msg)
+            self.logger.warn(msg)
             return -1
 
-        if 'tradeId' in data and data['tradeId'] != '': 
+        if 'tradeId' in data and data['tradeId'] != '':
             trade_id = int(data['tradeId'])
             if 'action' in data and data['action'] == 'I':
-                self.logger.warn('Got a insert event for closed positions: %s.' 
+                self.logger.warn('Got a insert event for closed positions: %s.'
                                  % data)
                 self.closed_pos[trade_id] = fxcm_closed_position(self, data)
             elif 'action' in data and data['action'] == 'D':
-                self.logger.warn('Got a delete event for closed pos: %s' % data)
+                self.logger.warn('Got delete event for closed pos: %s' % data)
                 del self.closed_pos[trade_id]
 
             elif ('action' in data and
                   data['action'] != 'I' and data['action'] != 'D' and
                   data['action'] != 'U'):
-                msg = 'Found an unknown action in closed pos stream: %s.' % data
+                msg = 'Found unknown action in closed pos stream: %s.' % data
                 self.logger.error(msg)
             else:
                 self.logger.debug('Update data without action:')
@@ -2360,7 +2353,6 @@ class fxcm(object):
                     self.logger.error(sys.exc_info()[0])
                     self.logger(sys.exc_info()[1])
                     self.logger(sys.exc_info()[2])
-
 
     def __on_error__(self, msg):
         print('Error: %s' % msg)
@@ -2393,10 +2385,3 @@ class fxcm(object):
             self.logger.debug('Found config value %s for key %s in section %s.'
                               % (config[section][key], key, section))
         return config[section][key]
-
-
-
-
-
-
-
