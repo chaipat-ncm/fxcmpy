@@ -15,7 +15,7 @@
 
 
 import datetime as dt
-from fxcm_order import fxcm_order
+from fxcm.fxcm_order import fxcm_order
 
 
 class fxcm_oco_order(object):

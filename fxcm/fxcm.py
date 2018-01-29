@@ -25,10 +25,10 @@ import datetime as dt
 import configparser
 import logging
 import os
-from fxcm_closed_position import fxcm_closed_position
-from fxcm_open_position import fxcm_open_position
-from fxcm_oco_order import fxcm_oco_order
-from fxcm_order import fxcm_order
+from fxcm.fxcm_closed_position import fxcm_closed_position
+from fxcm.fxcm_open_position import fxcm_open_position
+from fxcm.fxcm_oco_order import fxcm_oco_order
+from fxcm.fxcm_order import fxcm_order
 
 from urllib.parse import unquote
 
