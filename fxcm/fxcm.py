@@ -25,6 +25,7 @@ import datetime as dt
 import configparser
 import logging
 import os
+
 from fxcm.fxcm_closed_position import fxcm_closed_position
 from fxcm.fxcm_open_position import fxcm_open_position
 from fxcm.fxcm_oco_order import fxcm_oco_order
