@@ -1833,7 +1833,7 @@ class fxcm(object):
 
         return list(self.offers.keys())
 
-    def get_candles(self, instrument, period, number=10, start=None, stop=None,
+    def get_candles(self, instrument, period, number=10, start=None, end=None,
                     with_index=True, columns=[]):
         """Return historical data from the fxcm database as pandas.DataFrame.
 
@@ -1852,11 +1852,13 @@ class fxcm(object):
         number: integer (default 10),
             the number of candles to receive.
 
-        start: datetime.datetime or datetime.date (defaut None),
-            the first date to receive data for.
+        start: datetime.datetime, datetime.date or string (defaut None),
+            the first date to receive data for. If it is a string, the date is 
+            in format YYYY-MM-DD hh:mm. 
 
-        stop: datetime.datetime or datetime.date (default None),
-            the last date to receive data for.
+        end: datetime.datetime or datetime.date (default None),
+            the last date to receive data for. If it is a string, the date is 
+            in format YYYY-MM-DD hh:mm. 
 
         with_index: boolean (default True),
             whether the column 'date' should server as index in the resulting
@@ -1904,9 +1906,23 @@ class fxcm(object):
                  }
 
         if start:
-            if isinstance(start, dt.datetime) or isinstance(start, dt.date):
-                start = ((start - dt.datetime(1970, 1, 1)) /
-                         dt.timedelta(seconds=1))
+            if isinstance(start, str):
+                try:
+                    start = dt.datetime.strptime(start, '%Y-%m-%d %H:%M')
+                except:
+                    msg = "start must either be a datetime object or a string"
+                    msg += " in format 'YYYY-MM-DD hh:mm'."
+                    raise ValueError(msg)
+
+            elif isinstance(start, dt.datetime) or isinstance(start, dt.date):
+                pass
+            else:
+                msg = "start must either be a datetime object or a string"
+                msg += " in format 'YYYY-MM-DD hh:mm'."
+                raise ValueError(msg)
+
+            start = ((start - dt.datetime(1970, 1, 1)) / 
+                     dt.timedelta(seconds=1))
             try:
                 start = int(start)
             except:
@@ -1915,17 +1931,30 @@ class fxcm(object):
                 raise ValueError('start must be a datetime object.')
             params['from'] = start
 
-        if stop:
-            if isinstance(stop, dt.datetime) or isinstance(stop, dt.date):
-                stop = ((stop - dt.datetime(1970, 1, 1)) /
-                        dt.timedelta(seconds=1))
+        if end:
+            if isinstance(end, str):
+                try:
+                    end = dt.datetime.strptime(end, '%Y-%m-%d %H:%M')
+                except:
+                    msg = "end must either be a datetime object or a string"
+                    msg += " in format 'YYYY-MM-DD hh:mm'."
+                    raise ValueError(msg)
+
+            elif isinstance(end, dt.datetime) or isinstance(end, dt.date):
+                pass
+            else:
+                msg = "end must either be a datetime object or a string"
+                msg += " in format 'YYYY-MM-DD hh:mm'."
+                raise ValueError(msg)
+
+            end = ((end - dt.datetime(1970, 1, 1)) / dt.timedelta(seconds=1))
             try:
-                stop = int(stop)
+                end = int(end)
             except:
                 self.logger.error('Error in get_candles:')
-                self.logger.error('Illegal value for stop: %s.' % stop)
-                raise ValueError('stop must be a datetime object.')
-            params['to'] = stop
+                self.logger.error('Illegal value for end: %s.' % stop)
+                raise ValueError('end must be a datetime object.')
+            params['to'] = end
 
         data = self.__handle_request__(method='candles/%s/%s'
                                        % (offer_id, period), params=params)
