@@ -1856,7 +1856,7 @@ class fxcm(object):
             the first date to receive data for. If it is a string, the date is 
             in format YYYY-MM-DD hh:mm. 
 
-        end: datetime.datetime or datetime.date (default None),
+        end: datetime.datetime, datetime.date or string (default None),
             the last date to receive data for. If it is a string, the date is 
             in format YYYY-MM-DD hh:mm. 
 
