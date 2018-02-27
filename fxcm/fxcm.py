@@ -33,6 +33,7 @@ from fxcm.fxcm_order import fxcm_order
 
 from urllib.parse import unquote
 
+
 MISSING_ACCESS_TOKEN = "Cannot find access token. Please provide \
 the token either as parameter in the class constructor or within a \
 a configuration file and provide the file's path as parameter in the \
@@ -1834,7 +1835,7 @@ class fxcm(object):
         return list(self.offers.keys())
 
     def get_candles(self, instrument, period, number=10, start=None, end=None,
-                    with_index=True, columns=[]):
+                    with_index=True, columns=[], stop=None):
         """Return historical data from the fxcm database as pandas.DataFrame.
 
         Arguments:
@@ -1930,6 +1931,9 @@ class fxcm(object):
                 self.logger.error('Illegal value for start: %s.' % start)
                 raise ValueError('start must be a datetime object.')
             params['from'] = start
+
+        if end == None and stop is not None:
+            end = stop
 
         if end:
             if isinstance(end, str):
