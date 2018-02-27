@@ -4,3 +4,5 @@ from .fxcm_closed_position import *
 from .fxcm_order import *
 from .fxcm_oco_order import *
 
+fxcm.__version__ = '0.5.3'
+
