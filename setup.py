@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
     name = 'fxcm',
     packages = ['fxcm'], # this must be the same as the name above
-    version = '0.5.3',
+    version = '0.5.4',
     description = 'A Python Wrapper Class for the RESTful API as provided by FXCM Forex Capital Markets Ltd.',
     author = 'The Python Quants GmbH',
     author_email = 'admin@tpq.io',
