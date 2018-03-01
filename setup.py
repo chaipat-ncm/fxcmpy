@@ -1,6 +1,6 @@
 from distutils.core import setup
 setup(
-    name = 'fxcm',
+    name = 'fxcmpy',
     packages = ['fxcm'], # this must be the same as the name above
     version = '0.5.4',
     description = 'A Python Wrapper Class for the RESTful API as provided by FXCM Forex Capital Markets Ltd.',

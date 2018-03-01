@@ -1,5 +1,5 @@
 #
-# fxcm_oco_order -- A Python Wrapper Class for the
+# fxcmpy_oco_order -- A Python Wrapper Class for the
 # RESTful API as provided by FXCM Forex Capital Markets Ltd.
 #
 # Proof-of-Concept | Prototype Version for Illustration
@@ -15,10 +15,10 @@
 
 
 import datetime as dt
-from fxcm.fxcm_order import fxcm_order
+from fxcmpy.fxcmpy_order import fxcmpy_order
 
 
-class fxcm_oco_order(object):
+class fxcmpy_oco_order(object):
     """ A class to realize oco orders of the FXCM API.
 
     Caution:
@@ -39,8 +39,8 @@ class fxcm_oco_order(object):
             raise TypeError('bulk_id must be an integer.')
 
         for order in orders:
-            if not isinstance(order, fxcm_order):
-                raise TypeError('orders must be of type fxcm_orders.')
+            if not isinstance(order, fxcmpy_order):
+                raise TypeError('orders must be of type fxcmpy_orders.')
             order_id = order.get_orderId()
             self.orders[order_id] = order
             self.logger.info('Add order with id %s to oco order.' % order_id)
@@ -69,9 +69,9 @@ class fxcm_oco_order(object):
 
         order_ids = list()
         for order in orders:
-            if not isinstance(order, fxcm_order):
+            if not isinstance(order, fxcmpy_order):
                 self.logger.error('Invalid order in add_order: %s.' % order)
-                raise ValueError('order must be of type fxcm_order.')
+                raise ValueError('order must be of type fxcmpy_order.')
             if order.get_ocoBulkId() == self.bulk_id:
                 self.logger.warn('order allready member of oco order.')
             else:
@@ -92,9 +92,9 @@ class fxcm_oco_order(object):
 
         order_ids = list()
         for order in orders:
-            if not isinstance(order, fxcm_order):
+            if not isinstance(order, fxcmpy_order):
                 self.logger.error('Invalid order in add_order: %s.' % order)
-                raise ValueError('order must be of type fxcm_order.')
+                raise ValueError('order must be of type fxcmpy_order.')
             if order.get_ocoBulkId() != self.bulk_id:
                 self.logger.warn('order not member of oco order.')
             else:
@@ -121,18 +121,18 @@ class fxcm_oco_order(object):
         remove_order_ids = list()
 
         for order in add_orders:
-            if not isinstance(order, fxcm_order):
+            if not isinstance(order, fxcmpy_order):
                 self.logger.error('Invalid order in add_orders: %s.' % order)
-                raise ValueError('order must be of type fxcm_order.')
+                raise ValueError('order must be of type fxcmpy_order.')
             if order.get_ocoBulkId() == self.bulk_id:
                 self.logger.warn('order allready member of oco order.')
             else:
                 add_order_ids.append(order.get_orderId())
 
         for order in remove_orders:
-            if not isinstance(order, fxcm_order):
+            if not isinstance(order, fxcmpy_order):
                 self.logger.error('Invalid order in remove_orders: %s' % order)
-                raise ValueError('order must be of type fxcm_order.')
+                raise ValueError('order must be of type fxcmpy_order.')
             if order.get_ocoBulkId() != self.bulk_id:
                 self.logger.warn('order is not member of oco order.')
             else:
@@ -142,13 +142,13 @@ class fxcm_oco_order(object):
                             remove_order_ids=remove_order_ids)
 
     def __add__(self, order):
-        if not isinstance(order, fxcm_order):
-                raise TypeError('orders must be of type fxcm_orders.')
+        if not isinstance(order, fxcmpy_order):
+                raise TypeError('orders must be of type fxcmpy_orders.')
         order_id = order.get_orderId()
         self.orders[order_id] = order
 
     def __remove__(self, order):
-        if not isinstance(order, fxcm_order):
-                raise TypeError('orders must be of type fxcm_orders.')
+        if not isinstance(order, fxcmpy_order):
+                raise TypeError('orders must be of type fxcmpy_orders.')
         order_id = order.get_orderId()
         del self.orders[order_id]

@@ -1,5 +1,5 @@
 #
-# fxcm_open_position -- A Python Wrapper Class for the
+# fxcmpy_open_position -- A Python Wrapper Class for the
 # RESTful API as provided by FXCM Forex Capital Markets Ltd.
 #
 # Proof-of-Concept | Prototype Version for Illustration
@@ -17,7 +17,7 @@
 import datetime as dt
 
 
-class fxcm_open_position(object):
+class fxcmpy_open_position(object):
     """ A convenience class for a better handling of open positions. """
     position_parameter = ['tradeId', 'accountName', 'accountId', 'roll', 'com',
                           'open', 'valueDate', 'grossPL', 'close', 'visiblePL',

@@ -1,5 +1,5 @@
 #
-# fxcm_order -- A Python Wrapper Class for the
+# fxcmpy_order -- A Python Wrapper Class for the
 # RESTful API as provided by FXCM Forex Capital Markets Ltd.
 #
 # Proof-of-Concept | Prototype Version for Illustration
@@ -18,7 +18,7 @@ import datetime as dt
 import time
 
 
-class fxcm_order(object):
+class fxcmpy_order(object):
     """ A class to realize entry orders of the FXCM API.
 
     Caution:

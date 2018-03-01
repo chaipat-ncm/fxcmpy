@@ -1,5 +1,5 @@
 #
-# fxcm -- A Python Wrapper Class for the
+# fxcmpy -- A Python Wrapper Class for the
 # RESTful API as provided by FXCM Forex Capital Markets Ltd.
 #
 # Proof-of-Concept | Prototype Version for Illustration
@@ -26,10 +26,10 @@ import configparser
 import logging
 import os
 
-from fxcm.fxcm_closed_position import fxcm_closed_position
-from fxcm.fxcm_open_position import fxcm_open_position
-from fxcm.fxcm_oco_order import fxcm_oco_order
-from fxcm.fxcm_order import fxcm_order
+from fxcmpy.fxcmpy_closed_position import fxcmpy_closed_position
+from fxcmpy.fxcmpy_open_position import fxcmpy_open_position
+from fxcmpy.fxcmpy_oco_order import fxcmpy_oco_order
+from fxcmpy.fxcmpy_order import fxcmpy_order
 
 from urllib.parse import unquote
 
@@ -46,7 +46,7 @@ class ServerError(Exception):
     pass
 
 
-class fxcm(object):
+class fxcmpy(object):
     """ A wrapper class for the FXCM API. """
 
     # Class attributes
@@ -480,7 +480,7 @@ class fxcm(object):
 
         Returns:
 
-        The fxcm_open_position object.
+        The fxcmpy_open_position object.
         """
         try:
             position_id = int(position_id)
@@ -504,7 +504,7 @@ class fxcm(object):
 
         Returns:
 
-        The fxcm_open_position object.
+        The fxcmpy_open_position object.
         """
         try:
             position_id = int(position_id)
@@ -530,7 +530,7 @@ class fxcm(object):
 
         Returns:
 
-        The fxcm_order object.
+        The fxcmpy_order object.
         """
 
         if order_id in self.orders:
@@ -555,7 +555,7 @@ class fxcm(object):
 
         Returns:
 
-        The fxcm_oco_order_object.
+        The fxcmpy_oco_order_object.
         """
 
         if order_id not in self.oco_orders:
@@ -1740,7 +1740,7 @@ class fxcm(object):
                 raise ValueError('No order with id %s' % data_set['orderId'])
 
         bulk_id = orders[0].__ocoBulkId__
-        oco_order = fxcm_oco_order(bulk_id, orders, self,  self.logger)
+        oco_order = fxcmpy_oco_order(bulk_id, orders, self,  self.logger)
         self.oco_orders[bulk_id] = oco_order
         return oco_order
 
@@ -2013,7 +2013,7 @@ class fxcm(object):
         data = self.get_orders('list')
         for order in data:
             if 'orderId' in order and order['orderId'] != '':
-                self.orders[int(order['orderId'])] = fxcm_order(self, order)
+                self.orders[int(order['orderId'])] = fxcmpy_order(self, order)
 
     def __collect_oco_orders__(self):
         """ Collect available oco orders and stores them in self.oco_orders."""
@@ -2023,7 +2023,7 @@ class fxcm(object):
                 if order.__ocoBulkId__ in self.oco_orders:
                     self.oco_orders[order.__ocoBulkId__].__add__(order)
                 else:
-                    oco = fxcm_oco_order(order.__ocoBulkId__, [order, ], self,
+                    oco = fxcmpy_oco_order(order.__ocoBulkId__, [order, ], self,
                                          self.logger)
                     self.oco_orders[order.__ocoBulkId__] = oco
 
@@ -2040,12 +2040,12 @@ class fxcm(object):
         data = self.get_open_positions('list')
         for pos in data:
             if 'tradeId' in pos and pos['tradeId'] != '':
-                self.open_pos[int(pos['tradeId'])] = fxcm_open_position(self,
+                self.open_pos[int(pos['tradeId'])] = fxcmpy_open_position(self,
                                                                         pos)
         data = self.get_closed_positions('list')
         for po in data:
             if 'tradeId' in po and po['tradeId'] != '':
-                self.closed_pos[int(po['tradeId'])] = fxcm_closed_position(self,
+                self.closed_pos[int(po['tradeId'])] = fxcmpy_closed_position(self,
                                                                            po)
 
     def __connect__(self):
@@ -2235,7 +2235,7 @@ class fxcm(object):
         if 'action' in data and data['action'] == 'I':
             self.logger.info('Got a insert event for orders: %s.' % data)
             order_id = int(data['orderId'])
-            self.orders[order_id] = fxcm_order(self, data)
+            self.orders[order_id] = fxcmpy_order(self, data)
 
         elif 'action' in data and data['action'] == 'D':
             self.logger.warn('Got a delete event for orders: %s.' % data)
@@ -2310,7 +2310,7 @@ class fxcm(object):
             if 'action' in data and data['action'] == 'I':
                 self.logger.warn('Got a insert event for open positions: %s.'
                                  % data)
-                self.open_pos[trade_id] = fxcm_open_position(self, data)
+                self.open_pos[trade_id] = fxcmpy_open_position(self, data)
             elif 'action' in data and data['action'] == 'D':
                 self.logger.warn('Got a delete event for open posi: %s' % data)
                 del self.open_pos[trade_id]
@@ -2360,7 +2360,7 @@ class fxcm(object):
             if 'action' in data and data['action'] == 'I':
                 self.logger.warn('Got a insert event for closed positions: %s.'
                                  % data)
-                self.closed_pos[trade_id] = fxcm_closed_position(self, data)
+                self.closed_pos[trade_id] = fxcmpy_closed_position(self, data)
             elif 'action' in data and data['action'] == 'D':
                 self.logger.warn('Got delete event for closed pos: %s' % data)
                 del self.closed_pos[trade_id]
