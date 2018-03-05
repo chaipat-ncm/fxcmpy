@@ -1,13 +1,16 @@
 from distutils.core import setup
 
 def readme():
-    with open('README.md') as f:
-        return f.read()
+    try:
+        with open('README_short.rst') as f:
+            return f.read()
+    except:
+        return ''
 
 setup(
     name = 'fxcmpy',
     packages = ['fxcmpy'], # this must be the same as the name above
-    version = '0.6.2',
+    version = '0.6.3',
     description = 'A Python Wrapper Class for the RESTful API as provided by FXCM Forex Capital Markets Ltd.',
     long_description = readme(),
     author = 'The Python Quants GmbH',

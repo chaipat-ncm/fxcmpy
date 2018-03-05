@@ -24,15 +24,15 @@ of or reliance on such information.
 Introduction
 ------------
 
-FXCM provides a **RESTful API** (henceforth the "API") to interact with
+FXCM provides a **RESTful API** (henceforth the "API" to interact with
 its trading platform. Among others, it allows the retrieval of
 **historical data** as well as of **streaming data**. In addition, it
 allows to place different types of **orders** and to read out **account
 information**. The overall goal is to allow the implementation
 **automated, algortithmic trading programs**.
 
-In this documentation, you learn all about the ``fxcm.py`` Python
-wrapper package (henceforth just ``fxcm.py`` or "package").
+In this documentation, you learn all about the ``fxcmpy.py`` Python
+wrapper package (henceforth just ``fxcmpy.py`` or "package").
 
 Demo Account
 ------------
@@ -48,18 +48,18 @@ Installation happens via ``pip`` install on the command line.
 
 ::
 
-    pip install fxcm
+    pip install fxcmpy
 
 Working in an interactive context (e.g. ``IPython`` or ``Jupyter``), you
 can then check whether the package is installed via:
 
 .. code:: ipython3
 
-    import fxcm
+    import fxcmpy
 
 .. code:: ipython3
 
-    fxcm.__version__
+    fxcmpy.__version__
 
 API Token
 ---------
@@ -79,7 +79,7 @@ Connecting to the server, then boils down to the following line of code.
 
 ::
 
-    con = fxcm.fxcm(access_token=TOKEN, log_level='error')
+    con = fxcmpy.fxcmpy(access_token=TOKEN, log_level='error')
 
 However, it is recommended to store the API token in a **configuration
 file** which allows for re-usability and hides the token on the GUI
@@ -100,7 +100,7 @@ the filename need to be passed as a parameter to **connect to the API**.
 
 .. code:: ipython3
 
-    con = fxcm.fxcm(config_file='fxcm.cfg')
+    con = fxcmpy.fxcmpy(config_file='fxcm.cfg')
 
 First Steps
 -----------
