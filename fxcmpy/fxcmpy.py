@@ -66,7 +66,7 @@ class fxcmpy(object):
     debug = False
 
     def __init__(self, access_token='', config_file='',
-                 log_file=None, log_level=''):
+                 log_file=None, log_level='', server='demo'):
         """ Constructor.
 
         Arguments:
@@ -85,10 +85,16 @@ class fxcmpy(object):
             the log level. Must be one of 'error', 'warn', 'info' or 'debug'.
             If not given (and not found in the optional configuration file),
             'warn' is used.
+        server: one of 'demo' or 'real' (default: 'demo'),
+            wheter to use the fxcm demo or real trading server.
         """
 
         self.logger = None
         self.config_file = ''
+        if server == 'demo':
+            self.auth_url = 'https://www-beta2.fxcorporate.com'
+            self.trading_url = 'https://api-demo.fxcm.com'
+            self.port = 443
 
         if access_token != '':
             self.access_token = access_token
@@ -96,7 +102,7 @@ class fxcmpy(object):
             if os.path.isfile(config_file):
                 self.config_file = config_file
             else:
-                raise IOError('Can not find configiguration file: %s.'
+                raise IOError('Can not find configuration file: %s.'
                               % config_file)
             try:
                 self.access_token = self.__get_config_value__('FXCM',
