@@ -6,9 +6,9 @@ def readme():
 setup(
     name = 'fxcmpy',
     packages = ['fxcmpy'], # this must be the same as the name above
-    version = '0.5.6',
+    version = '0.5.7',
     description = 'A Python Wrapper Class for the RESTful API as provided by FXCM Forex Capital Markets Ltd.',
-    long_description = readme()
+    long_description = readme(),
     author = 'The Python Quants GmbH',
     author_email = 'admin@tpq.io',
     license='BSD',
