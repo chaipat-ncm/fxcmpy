@@ -2081,7 +2081,8 @@ class fxcmpy(object):
                                     'Authorization': self.bearer_token,
                                     'Accept': 'application/json',
                                     'Content-Type':
-                                    'application/x-www-form-urlencoded'
+                                    'application/x-www-form-urlencoded',
+                                    'agent': 'pythonquants'
                                    }
 
             time.sleep(2)
