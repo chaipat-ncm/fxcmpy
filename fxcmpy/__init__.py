@@ -4,5 +4,4 @@ from .fxcmpy_closed_position import *
 from .fxcmpy_order import *
 from .fxcmpy_oco_order import *
 
-import version
-__version__ = version.version
+__version__ = '1.0.9'
