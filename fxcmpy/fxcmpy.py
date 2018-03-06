@@ -187,6 +187,10 @@ class fxcmpy(object):
         self.subscribe_data_model('OpenPosition')
         self.subscribe_data_model('ClosedPosition')
 
+    def close(self):
+        if self.is_connected():
+            self.socket.disconnect()
+
     def connect(self):
         """ Connect to the FXCM server."""
         self.connection_status = 'pending'

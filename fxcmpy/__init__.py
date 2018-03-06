@@ -4,8 +4,5 @@ from .fxcmpy_closed_position import *
 from .fxcmpy_order import *
 from .fxcmpy_oco_order import *
 
-try:
-    with open('version', 'r') as f:
-        __version__ = f.read()
-except:
-    __version__ = 'NA'
+import version
+__version__ = version.version
