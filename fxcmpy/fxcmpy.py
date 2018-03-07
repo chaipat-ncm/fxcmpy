@@ -51,9 +51,9 @@ class fxcmpy(object):
 
     # Class attributes
 
-    auth_url = 'https://www-beta2.fxcorporate.com'
-    trading_url = 'https://api-demo.fxcm.com'
-    port = 443
+    #auth_url = 'https://www-beta2.fxcorporate.com'
+    #trading_url = 'https://api-demo.fxcm.com'
+    #port = 443
     models = ['Offer', 'Account', 'Order', 'OpenPosition', 'ClosedPosition',
               'Summary', 'Properties', 'LeverageProfile']
     PERIODS = ['m1', 'm5', 'm15', 'm30', 'H1', 'H2', 'H3', 'H4', 'H6', 'H8',
@@ -92,9 +92,14 @@ class fxcmpy(object):
         self.logger = None
         self.config_file = ''
         if server == 'demo':
-            self.auth_url = 'https://www-beta2.fxcorporate.com'
+            #self.auth_url = 'https://www-beta2.fxcorporate.com'
             self.trading_url = 'https://api-demo.fxcm.com'
             self.port = 443
+        elif server == 'real':
+            #self.auth_url = 'https://www-beta2.fxcorporate.com'
+            self.trading_url = 'https://api.fxcm.com'
+            self.port = 443
+
 
         if access_token != '':
             self.access_token = access_token
@@ -2062,7 +2067,8 @@ class fxcmpy(object):
         try:
             self.logger.debug('Access token: %s.' % self.access_token)
             self.socket = SocketIO(self.trading_url+':443', self.port,
-                                   params={'access_token': self.access_token},
+                                   params={'access_token': self.access_token,
+                                            'agent': 'pythonquants'},
                                    wait_for_connection=False)
             self.logger.debug('Socket established: %s.' % self.socket)
             self.socket_id = self.socket._engineIO_session.id
@@ -2085,8 +2091,7 @@ class fxcmpy(object):
                                     'Authorization': self.bearer_token,
                                     'Accept': 'application/json',
                                     'Content-Type':
-                                    'application/x-www-form-urlencoded',
-                                    'agent': 'pythonquants'
+                                    'application/x-www-form-urlencoded'
                                    }
 
             time.sleep(2)
