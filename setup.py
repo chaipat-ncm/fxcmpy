@@ -26,7 +26,7 @@ setup(
     author_email = 'admin@tpq.io',
     license='BSD',
     url = 'https://github.com/fxcm/fxcmpy', 
-    download_url = 'https://github.com/fxcm/fxcmpy/archive/0.1.tar.gz', 
+    download_url = 'https://github.com/fxcm/fxcmpy', 
     keywords = 'FXCM API Python Wrapper Finance Algo Trading',
     install_requires=['pandas', 'socketIO_client', 'configparser', 'requests'], 
     python_requires='>=3.4',

@@ -2,6 +2,7 @@
 README.rst
 setup.cfg
 setup.py
+fxcmpy/VERSION
 fxcmpy/__init__.py
 fxcmpy/fxcmpy.py
 fxcmpy/fxcmpy_closed_position.py
