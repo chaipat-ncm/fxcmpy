@@ -10,7 +10,7 @@ def readme():
 
 def read_version():
     file_name = os.path.join('fxcmpy', 'VERSION')
-    with open(file_name, 'r'):
+    with open(file_name, 'r') as f:
         ret = f.read()
     return ret
 
