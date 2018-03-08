@@ -1,8 +1,5 @@
 from distutils.core import setup
-import os
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), 'fxcmpy'))
-import VERSION
+import fxcmpy.VERSION
 
 def readme():
     try:
@@ -11,18 +8,11 @@ def readme():
     except:
         return ''
 
-def read_version():
-    file_name = os.path.join('fxcmpy', 'VERSION')
-    with open(file_name, 'r') as f:
-        ret = f.read()
-    if ret[-1] == '\n':
-        ret = ret[:-1]
-    return ret
 
 setup(
     name = 'fxcmpy',
     packages = ['fxcmpy'], # this must be the same as the name above
-    version = VERSION.version,
+    version = '1.1.7',
     description = 'A Python Wrapper Class for the RESTful API as provided by FXCM Forex Capital Markets Ltd.',
     long_description = readme(),
     author = 'The Python Quants GmbH',
