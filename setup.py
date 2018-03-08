@@ -1,7 +1,7 @@
 from distutils.core import setup
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), 'fxcmpy')
+sys.path.append(os.path.join(os.path.dirname(__file__), 'fxcmpy'))
 import VERSION
 
 def readme():
