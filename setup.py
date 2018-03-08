@@ -1,5 +1,6 @@
 from distutils.core import setup
 import os
+import VERSION
 
 def readme():
     try:
@@ -19,7 +20,7 @@ def read_version():
 setup(
     name = 'fxcmpy',
     packages = ['fxcmpy'], # this must be the same as the name above
-    version = read_version(),
+    version = VERSION.version,
     description = 'A Python Wrapper Class for the RESTful API as provided by FXCM Forex Capital Markets Ltd.',
     long_description = readme(),
     author = 'The Python Quants GmbH',
