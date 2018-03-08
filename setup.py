@@ -1,4 +1,5 @@
 from distutils.core import setup
+import os
 
 def readme():
     try:
@@ -7,10 +8,16 @@ def readme():
     except:
         return ''
 
+def read_version():
+    file_name = os.path.join('fxcmpy', 'VERSION')
+    with open(file_name, 'r'):
+        ret = f.read()
+    return ret
+
 setup(
     name = 'fxcmpy',
     packages = ['fxcmpy'], # this must be the same as the name above
-    version = '1.1.0',
+    version = read_version(),
     description = 'A Python Wrapper Class for the RESTful API as provided by FXCM Forex Capital Markets Ltd.',
     long_description = readme(),
     author = 'The Python Quants GmbH',
@@ -20,5 +27,8 @@ setup(
     download_url = 'https://github.com/fxcm/fxcmpy/archive/0.1.tar.gz', 
     keywords = 'FXCM API Python Wrapper Finance Algo Trading',
     install_requires=['pandas', 'socketIO_client', 'configparser', 'requests'], 
-    classifiers = [],
+    python_requires='>=3.4',
+    classifiers = ['Programming Language :: Python :: 3.4',
+                   'Programming Language :: Python :: 3.5',
+                   'Programming Language :: Python :: 3.6']
 )

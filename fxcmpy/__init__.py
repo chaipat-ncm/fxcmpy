@@ -4,4 +4,7 @@ from .fxcmpy_closed_position import *
 from .fxcmpy_order import *
 from .fxcmpy_oco_order import *
 
-__version__ = '1.1.0'
+with open('VERSION', 'r') as f:
+    __version__ = f.read()
+
+
