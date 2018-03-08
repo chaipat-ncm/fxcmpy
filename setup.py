@@ -12,6 +12,8 @@ def read_version():
     file_name = os.path.join('fxcmpy', 'VERSION')
     with open(file_name, 'r') as f:
         ret = f.read()
+    if ret[-1] == '\n':
+        ret = ret[:-1]
     return ret
 
 setup(
