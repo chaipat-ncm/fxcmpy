@@ -5,6 +5,6 @@ from .fxcmpy_order import *
 from .fxcmpy_oco_order import *
 
 
-__version__ = '1.1.8'
+__version__ = '1.1.9'
 
 
