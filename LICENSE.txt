@@ -1,0 +1,54 @@
+
+1. License
+
+Copyright (c) 2018: FXCM Group, LLC 
+
+FXCM Group, LLC and each of its affiliates and subsidiaries are herein referred 
+to as, “FXCM”.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+ 1. Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+    
+ 3. FXCM’s name may not be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY FXCM “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL FXCM BE 
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+2. Risk Warning¶
+
+As a condition to your use, you understand and agree that your download and/or 
+use of the software will expose you to risks associated with the download 
+and/or use of software, including without limitation:
+
+  - risk of delays or failures in transmission, connection, or communication;
+  - risks of error in the data, code, software updates or patches;
+  - the risk that the software maybe discontinued, terminated or become obsolete
+    at any time without notice;
+  - modification or updates to the software may cause disruption or errors;
+  - the risk that you are solely responsible to ensure you obtain and are using 
+    the most up to date version of the software, which may be modified or 
+    updated without notice; and
+  - software or data may not be compatible with your equipment or for your use.
+
+You hereby agree to accept such risks including but not limited to failure of or
+damage to hardware, software, communication lines or systems, and/or other 
+computer equipment. FXCM expressly disclaims any liability with respect to the
+foregoing, and you agree to fully indemnify, defend and hold harmless FXCM from
+any and all damages, liabilities, losses, costs and expenses that may arise
+therefrom.
+
