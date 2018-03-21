@@ -11,7 +11,7 @@ def readme():
 setup(
     name = 'fxcmpy',
     packages = ['fxcmpy'], # this must be the same as the name above
-    version = '1.1.12',
+    version = '1.1.14',
     description = 'A Python Wrapper Class for the RESTful API as provided by FXCM Forex Capital Markets Ltd.',
     long_description = readme(),
     author = 'The Python Quants GmbH',
@@ -26,6 +26,5 @@ setup(
     classifiers = ['Programming Language :: Python :: 3.4',
                    'Programming Language :: Python :: 3.5',
                    'Programming Language :: Python :: 3.6'],
-    data_files=[('', ['LICENSE.txt'])]    
 
 )
