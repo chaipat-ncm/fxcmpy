@@ -25,7 +25,7 @@ setup(
     include_package_data = True,
     package_data={
         '': ['*.txt']
-    }
+    },
     classifiers = ['Programming Language :: Python :: 3.4',
                    'Programming Language :: Python :: 3.5',
                    'Programming Language :: Python :: 3.6'],
