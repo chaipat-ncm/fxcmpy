@@ -64,18 +64,36 @@ class fxcmpy_tick_data_reader(object):
         self.codec = 'utf-16'
         if not isinstance(self, fxcmpy_candles_data_reader):
             self.__fetch_data__()
-
-    def get_data(self):
-        """ Returns the fetched data as Pandas DataFrame"""
+            
+    def get_raw_data(self):
+        """ Returns the raw data set as pandas DataFrame """
         return self.data
 
+    def get_data(self, start=None, end=None):
+        """ Returns the requested data set as pandas DataFrame;
+        DataFrame index is converted to DatetimeIndex object """
+        try:
+            self.data_adj
+        except:
+            data = self.data.copy()
+            index = pd.to_datetime(data.index.values,
+                                   format='%m/%d/%Y %H:%M:%S.%f')
+            data.index = index
+            self.data_adj = data
+        data = self.data_adj
+        if start is not None:
+            data = data[data.index >= start]
+        if end is not None:
+            data = data[data.index <= end]
+        return data
+    
     @classmethod
     def get_available_symbols(cls):
         """ Return all symbols available"""
         return cls.symbols
 
     def __fetch_data__(self):
-        """ Fetch the data for the given symbol and the given time window. """
+        """ Retrieve the data for the given symbol and the given time window """
         self.data = pd.DataFrame()
         running_date = self.start
         seven_days = dt.timedelta(days=7)
@@ -89,9 +107,6 @@ class fxcmpy_tick_data_reader(object):
                 self.data = pd.concat((self.data, data))
             running_date = running_date + seven_days
         
-        self.data = self.data[(self.data.index > self.start) & 
-                              (self.data.index < self.stop)]
-
     def __fetch_dataset__(self, url):
         """ Fetch the data for the given symbol and for one week."""
         print('Fetching data from: %s' % url)
@@ -100,8 +115,7 @@ class fxcmpy_tick_data_reader(object):
         f = gzip.GzipFile(fileobj=buf)
         data = f.read()
         data_str = data.decode(self.codec)
-        data_pandas = pd.read_csv(StringIO(data_str), index_col=0,
-                                  parse_dates=True)
+        data_pandas = pd.read_csv(StringIO(data_str), index_col=0)
         return data_pandas
 
 class fxcmpy_candles_data_reader(fxcmpy_tick_data_reader):
@@ -147,5 +161,4 @@ class fxcmpy_candles_data_reader(fxcmpy_tick_data_reader):
                 else:
                     self.data = pd.concat((self.data, data))
 
-        self.data = self.data[(self.data.index > self.start) & 
-                              (self.data.index < self.stop)]
+        

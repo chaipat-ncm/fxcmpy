@@ -169,11 +169,11 @@ class fxcmpy(object):
         self.connect()
 
         count = 0
-        while self.connection_status == 'pending' and count < 100:
+        while self.connection_status == 'pending' and count < 1000:
             count += 1
             time.sleep(0.1)
 
-        if self.connection_status == 'pending' and count == 100:
+        if self.connection_status == 'pending' and count == 1000:
             raise ServerError('Can not find FXCM Server.')
         elif self.connection_status == 'aborted':
             raise ServerError('Can not connect to FXCM Server.')
@@ -1007,16 +1007,25 @@ class fxcmpy(object):
                                        params=params, protocol='post')
         if 'data' in data and 'orderId' in data['data']:
             order_id = int(data['data']['orderId'])
+            print("Order_id:", order_id)
+            print(data)
         else:
             self.logger.warn('Missing orderId in servers answer.')
             return 0
 
-        try:
-            order = self.get_order(order_id)
-        except:
-            time.sleep(1)
-            order = self.get_order(order_id)
-
+        count = 0
+        order = None
+        while count < 10:
+            try:
+                order = self.get_order(order_id)
+                print(count)
+                break
+            except:
+                time.sleep(1)
+                count += 1
+                #order = self.get_order(order_id)
+        if order == None:
+            self.logger.warn('Can not find Order object, returning None.')
         return order
 
     def change_trade_stop_limit(self, trade_id, is_stop, rate, is_in_pips=True,
@@ -2209,6 +2218,9 @@ class fxcmpy(object):
             callbacks = self.add_callbacks[symbol]
             for func in callbacks:
                 try:
+                    #t = Thread(target=callbacks[func], 
+                    #           args=(data, self.prices[symbol]))
+                    #self.socket_thread.start()
                     callbacks[func](data, self.prices[symbol])
                 except:
                     self.logger.error('Call of %s raised an error:' % func)
