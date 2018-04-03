@@ -2218,10 +2218,10 @@ class fxcmpy(object):
             callbacks = self.add_callbacks[symbol]
             for func in callbacks:
                 try:
-                    #t = Thread(target=callbacks[func], 
-                    #           args=(data, self.prices[symbol]))
-                    #self.socket_thread.start()
-                    callbacks[func](data, self.prices[symbol])
+                    t = Thread(target=callbacks[func], 
+                               args=(data, self.prices[symbol]))
+                    t.start()
+                    #callbacks[func](data, self.prices[symbol])
                 except:
                     self.logger.error('Call of %s raised an error:' % func)
                     self.logger.error(sys.exc_info()[0])
