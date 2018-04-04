@@ -6,6 +6,6 @@ from fxcmpy.fxcmpy_oco_order import fxcmpy_oco_order
 from fxcmpy.fxcmpy_data_reader import fxcmpy_candles_data_reader
 from fxcmpy.fxcmpy_data_reader import fxcmpy_tick_data_reader
 
-__version__ = '1.1.11'
+__version__ = '1.1.12'
 
 

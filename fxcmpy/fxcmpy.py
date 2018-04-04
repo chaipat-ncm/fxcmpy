@@ -1007,8 +1007,6 @@ class fxcmpy(object):
                                        params=params, protocol='post')
         if 'data' in data and 'orderId' in data['data']:
             order_id = int(data['data']['orderId'])
-            print("Order_id:", order_id)
-            print(data)
         else:
             self.logger.warn('Missing orderId in servers answer.')
             return 0
@@ -1018,7 +1016,6 @@ class fxcmpy(object):
         while count < 10:
             try:
                 order = self.get_order(order_id)
-                print(count)
                 break
             except:
                 time.sleep(1)
