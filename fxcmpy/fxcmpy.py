@@ -1855,16 +1855,27 @@ class fxcmpy(object):
 
         return list(self.offers.keys())
 
-    def get_candles(self, instrument, period, number=10, start=None, end=None,
-                    with_index=True, columns=[], stop=None):
+    def get_candles(self, instrument='', offer_id=None, period='H1', number=10,
+                    start=None, end=None, with_index=True, columns=[], 
+                    stop=None):
         """Return historical data from the fxcm database as pandas.DataFrame.
 
         Arguments:
 
-        instrument: string:
+        instrument: string (default ''):
             the instrument for which data is requested. For a list of all
             available instruments for historical data, use
             get_instruments_for_candles().
+            If the value is equal to '' (default), offer_id must have a value. 
+            If both, instrument and offer_id are given, the value of instrument 
+            is used.
+
+        offer_id: integer (default None): 
+            the id of the instrument for which data is requested as given in the
+            offer trading table as given by get_offers(). If offer_id is equal 
+            to None (default), the parameter instrument must have a value. 
+            If both, instrument and offer_id are given, the value of instrument 
+            is used.
 
         period: string,
             the granularity of the data. Must be one of
@@ -1906,14 +1917,26 @@ class fxcmpy(object):
 
         """
 
-        if instrument == '':
+        if instrument == '' and offer_id == None:
             self.logger.error('Error in get_candles: No instrument given!.')
-            raise ValueError('Please provide a intrument.')
-        if instrument in self.offers:
-            offer_id = self.offers[instrument]
+            msg = ('Please provide either an instrument or an offer_id')
+            raise ValueError(msg)
+        elif instrument != '':
+            if offer_id != None:
+                msg = "Both, instrument and offer_id are given, "
+                msg += "taking the value of instrument." 
+                self.logger.warn(msg)
+            if instrument in self.offers:
+                offer_id = self.offers[instrument]
+            else:
+                self.logger.error('Unknown instrument: %s' % instrument)
+                raise ValueError('Instrument must be one of %s.'
+                                 % str(tuple(self.offers.keys())))
         else:
-            raise ValueError('Instrument must be one of %s.'
-                             % str(tuple(self.offers.keys())))
+            if offer_id not in self.offers.values():
+                self.logger.error('Unknown offer_id: %s' % offer_id)
+                raise ValueError('Unknown offer_id: %s' % offer_id)
+
         if period not in self.PERIODS:
             self.logger.error('Error in get_candles: Illegal period: %s.'
                               % period)
