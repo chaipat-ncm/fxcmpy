@@ -48,7 +48,5 @@ and/or use of software, including without limitation:
 You hereby agree to accept such risks including but not limited to failure of or
 damage to hardware, software, communication lines or systems, and/or other 
 computer equipment. FXCM expressly disclaims any liability with respect to the
-foregoing, and you agree to fully indemnify, defend and hold harmless FXCM from
-any and all damages, liabilities, losses, costs and expenses that may arise
-therefrom.
+foregoing.
 
