@@ -351,7 +351,7 @@ and pandas, for instance.
 
 
 
-.. image:: output_30_0.png
+.. image:: images/output_30_0.png
 
 
 Resources
