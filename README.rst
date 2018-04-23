@@ -38,7 +38,7 @@ Demo Account
 ------------
 
 To get started with the the API and the package, a **demo account** with
-FXCM is sufficient. You can open such an account [under](https://www.fxcm.com/uk/algorithmic-trading/api-trading/)
+FXCM is sufficient. You can open such an account under https://www.fxcm.com/uk/algorithmic-trading/api-trading/
 
 Package Installation
 --------------------
